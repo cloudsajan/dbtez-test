@@ -3,7 +3,7 @@ name: Build and Push Docker Image to GHCR
 on:
   push:
     branches:
-      - main  # Trigger only on push to main branch
+      - main
 
 jobs:
   build-and-push:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.SAJAN }}  # Use your PAT for access to private repos if needed
+          token: ${{ secrets.SAJAN }}
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -24,10 +24,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE_TAG=ghcr.io/cloudsajan/dbtez-test:latest
-          docker build -t $IMAGE_TAG .
+          docker build -t ghcr.io/cloudsajan/dbtez-test:latest .
 
       - name: Push Docker image to GHCR
         run: |
-          IMAGE_TAG=ghcr.io/cloudsajan/dbtez-test:latest
-          docker push $IMAGE_TAG
+          docker push ghcr.io/cloudsajan/dbtez-test:latest
