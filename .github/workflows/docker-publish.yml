@@ -1,0 +1,31 @@
+name: Build and Push Docker Image to GHCR
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR with PAT
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: cloudsajan
+          password: ${{ secrets.SAJAN }}
+
+      - name: Build Docker image
+        run: |
+          IMAGE_NAME=ghcr.io/cloudsajan/dbtez-test:latest
+          docker build -t $IMAGE_NAME .
+
+      - name: Push Docker image
+        run: |
+          IMAGE_NAME=ghcr.io/cloudsajan/dbtez-test:latest
+          docker push $IMAGE_NAME
